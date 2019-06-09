@@ -1,9 +1,8 @@
 'use strict';
 
-var WIZARD_NAMES = [
-  ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
-  ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг']
-];
+var WIZARD_NAMES = ['Иван', 'Хуан', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 
@@ -21,22 +20,22 @@ var getRandomData = function (arr) {
 
 var wizards = [
   {
-    name: getRandomData(getRandomData(WIZARD_NAMES)) + ' ' + getRandomData(getRandomData(WIZARD_NAMES)),
+    name: (Math.floor(Math.random() * 2) ? getRandomData(WIZARD_SURNAMES) + ' ' + getRandomData(WIZARD_NAMES) : getRandomData(WIZARD_NAMES) + ' ' + getRandomData(WIZARD_SURNAMES)),
     coatColor: getRandomData(COAT_COLORS),
     eyesColor: getRandomData(EYES_COLORS)
   },
   {
-    name: getRandomData(getRandomData(WIZARD_NAMES)) + ' ' + getRandomData(getRandomData(WIZARD_NAMES)),
+    name: (Math.floor(Math.random() * 2) ? getRandomData(WIZARD_SURNAMES) + ' ' + getRandomData(WIZARD_NAMES) : getRandomData(WIZARD_NAMES) + ' ' + getRandomData(WIZARD_SURNAMES)),
     coatColor: getRandomData(COAT_COLORS),
     eyesColor: getRandomData(EYES_COLORS)
   },
   {
-    name: getRandomData(getRandomData(WIZARD_NAMES)) + ' ' + getRandomData(getRandomData(WIZARD_NAMES)),
+    name: (Math.floor(Math.random() * 2) ? getRandomData(WIZARD_SURNAMES) + ' ' + getRandomData(WIZARD_NAMES) : getRandomData(WIZARD_NAMES) + ' ' + getRandomData(WIZARD_SURNAMES)),
     coatColor: getRandomData(COAT_COLORS),
     eyesColor: getRandomData(EYES_COLORS)
   },
   {
-    name: getRandomData(getRandomData(WIZARD_NAMES)) + ' ' + getRandomData(getRandomData(WIZARD_NAMES)),
+    name: (Math.floor(Math.random() * 2) ? getRandomData(WIZARD_SURNAMES) + ' ' + getRandomData(WIZARD_NAMES) : getRandomData(WIZARD_NAMES) + ' ' + getRandomData(WIZARD_SURNAMES)),
     coatColor: getRandomData(COAT_COLORS),
     eyesColor: getRandomData(EYES_COLORS)
   }
