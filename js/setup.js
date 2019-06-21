@@ -18,6 +18,11 @@ var userNameInput = setup.querySelector('.setup-user-name');
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 
+var defaultCoords = {
+  top: 0,
+  left: 0
+};
+
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
@@ -33,11 +38,17 @@ var openPopup = function () {
   userNameInput.addEventListener('blur', function () {
     document.addEventListener('keydown', onPopupEscPress);
   });
+  if (defaultCoords.top === 0 && defaultCoords.left === 0) {
+    defaultCoords.top = setup.offsetTop;
+    defaultCoords.left = setup.offsetLeft;
+  }
 };
 
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  setup.style.top = defaultCoords.top + 'px';
+  setup.style.left = defaultCoords.left + 'px';
 };
 
 setupOpen.addEventListener('click', function () {
