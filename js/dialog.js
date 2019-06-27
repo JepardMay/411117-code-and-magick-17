@@ -1,7 +1,78 @@
 'use strict';
 (function () {
-
   var setupDialogElement = document.querySelector('.setup');
+  var setupOpen = document.querySelector('.setup-open');
+  var setupClose = setupDialogElement.querySelector('.setup-close');
+  var userNameInput = setupDialogElement.querySelector('.setup-user-name');
+
+  var onPopupEscPress = function (evt) {
+    window.util.isEscEvent(evt, closePopup);
+  };
+
+  var openPopup = function () {
+    setupDialogElement.classList.remove('hidden');
+    document.addEventListener('keydown', onPopupEscPress);
+    userNameInput.addEventListener('focus', function () {
+      document.removeEventListener('keydown', onPopupEscPress);
+    });
+    userNameInput.addEventListener('blur', function () {
+      document.addEventListener('keydown', onPopupEscPress);
+    });
+    if (defaultCoords.top === 0 && defaultCoords.left === 0) {
+      defaultCoords.top = setupDialogElement.offsetTop;
+      defaultCoords.left = setupDialogElement.offsetLeft;
+    }
+  };
+
+  var closePopup = function () {
+    setupDialogElement.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+    setupDialogElement.style.top = defaultCoords.top + 'px';
+    setupDialogElement.style.left = defaultCoords.left + 'px';
+  };
+
+  var defaultCoords = {
+    top: 0,
+    left: 0
+  };
+
+  setupOpen.addEventListener('click', function () {
+    openPopup();
+  });
+
+  setupOpen.addEventListener('keydown', function (evt) {
+    window.util.isEnterEvent(evt, openPopup);
+  });
+
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
+
+  setupClose.addEventListener('keydown', function (evt) {
+    window.util.isEnterEvent(evt, openPopup);
+  });
+
+  userNameInput.addEventListener('invalid', function () {
+    if (userNameInput.validity.tooShort) {
+      userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else if (userNameInput.validity.tooLong) {
+      userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+    } else if (userNameInput.validity.valueMissing) {
+      userNameInput.setCustomValidity('Обязательное поле');
+    } else {
+      userNameInput.setCustomValidity('');
+    }
+  });
+
+  userNameInput.addEventListener('input', function (evt) {
+    var target = evt.target;
+    if (target.value.length < 2) {
+      target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else {
+      target.setCustomValidity('');
+    }
+  });
+
   var dialogHandle = setupDialogElement.querySelector('.upload');
 
   dialogHandle.addEventListener('mousedown', function (evt) {
@@ -51,5 +122,36 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  var shopElement = document.querySelector('.setup-artifacts-shop');
+  var draggedItem = null;
+
+  shopElement.addEventListener('dragstart', function (startEvt) {
+    if (startEvt.target.tagName.toLowerCase() === 'img') {
+      draggedItem = startEvt.target;
+      EventTarget.dataTransfer.setData('text/plain', startEvt.target.alt);
+    }
+  });
+
+  var artifactsElement = document.querySelector('.setup-artifacts');
+
+  artifactsElement.addEventListener('dragover', function (overEvt) {
+    overEvt.preventDefault();
+    return false;
+  });
+
+  artifactsElement.addEventListener('drop', function (dropEvt) {
+    dropEvt.target.style.backgroundColor = '';
+    dropEvt.target.appendChild(draggedItem);
+  });
+
+  artifactsElement.addEventListener('dragenter', function (enterEvt) {
+    enterEvt.target.style.backgroundColor = 'yellow';
+    enterEvt.preventDefault();
+  });
+
+  artifactsElement.addEventListener('dragleave', function (leaveEvt) {
+    leaveEvt.target.style.backgroundColor = '';
+    leaveEvt.preventDefault();
+  });
 
 })();
