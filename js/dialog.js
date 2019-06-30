@@ -154,4 +154,35 @@
     leaveEvt.preventDefault();
   });
 
+  var errorHandler = function (errorMessage) {
+    var node = setupDialogElement.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var form = setupDialogElement.querySelector('.setup-wizard-form');
+  var coatColor = document.querySelector('[name="coat-color"]');
+  var eyesColor = document.querySelector('[name="eyes-color"]');
+  var fireballColor = document.querySelector('[name = fireball-color]');
+
+  form.addEventListener('sumbit', function (evt) {
+    evt.preventDefault();
+
+    var data = new FormData();
+
+    data.append('coat-color', coatColor.value);
+    data.append('eyes-color', eyesColor.value);
+    data.append('fireball-color', fireballColor.value);
+
+    window.backend.save(data, function (response) {
+      closePopup();
+    }, errorHandler);
+  });
+
 })();
