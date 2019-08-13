@@ -6,7 +6,7 @@
   shopElement.addEventListener('dragstart', function (startEvt) {
     if (startEvt.target.tagName.toLowerCase() === 'img') {
       draggedItem = startEvt.target;
-      EventTarget.dataTransfer.setData('text/plain', startEvt.target.alt);
+      // EventTarget.dataTransfer.setData('text/plain', startEvt.target.alt);
     }
   });
 

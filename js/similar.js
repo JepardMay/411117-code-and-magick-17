@@ -1,16 +1,14 @@
 'use strict';
 (function () {
-  var coatColor;
-  var eyesColor;
   var wizards = [];
 
   var getRank = function (wizard) {
     var rank = 0;
 
-    if (wizard.colorCoat === coatColor) {
+    if (wizard.coatColor === window.myWizard.coatColor) {
       rank += 2;
     }
-    if (wizard.colorEyes === eyesColor) {
+    if (wizard.eyesColor === window.myWizard.eyesColor) {
       rank += 1;
     }
 
@@ -27,28 +25,26 @@
     }
   };
 
-  var updateWizards = function () {
-    window.render(wizards.sort(function (left, right) {
-      var rankDiff = getRank(right) - getRank(left);
-      if (rankDiff === 0) {
-        rankDiff = namesComparator(left.name, right.name);
-      }
-      return rankDiff;
-    }));
+  var wizardsComparator = function (left, right) {
+    var rankDiff = getRank(right) - getRank(left);
+    if (rankDiff === 0) {
+      rankDiff = namesComparator(left.name, right.name);
+    }
+    return rankDiff;
   };
 
-  window.wizard.onEyesChange = window.debounce(function (color) {
-    eyesColor = color;
-    updateWizards();
-  });
+  var updateWizards = function () {
+    window.render(wizards.sort(wizardsComparator));
+  };
 
-  window.wizard.onCoatChange = window.debounce(function (color) {
-    coatColor = color;
+  window.myWizard.onChange = window.debounce(function () {
     updateWizards();
   });
 
   var successHandler = function (data) {
-    wizards = data;
+    wizards = data.map(function (it) {
+      return new window.Wizard(it);
+    });
     updateWizards();
   };
 
